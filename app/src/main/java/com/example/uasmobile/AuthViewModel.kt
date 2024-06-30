@@ -19,9 +19,9 @@ class AuthViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun register(username: String, password: String) {
+    fun register(username: String, password: String,fullName: String ,address: String, ) {
         viewModelScope.launch(Dispatchers.IO) {
-            userDao.insert(User(username = username, password = password))
+            userDao.insert(User(username = username, password = password, fullName = fullName, address = address))
         }
     }
 }

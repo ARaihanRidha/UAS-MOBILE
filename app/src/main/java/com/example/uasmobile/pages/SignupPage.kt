@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 fun SignupPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
     var username by remember { mutableStateOf("") } //nyimpan data input
     var password by remember { mutableStateOf("") }
+    var address  by remember { mutableStateOf("") }
+    var fullName by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
     Column(
@@ -32,6 +34,20 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
+            value = fullName,
+            onValueChange = { fullName = it },
+            label = { Text("Full Name") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextField(
+            value = address,
+            onValueChange = { address = it },
+            label = { Text("Address") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Password") },
@@ -42,7 +58,7 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
         Button(
             onClick = {
                 scope.launch {
-                    authViewModel.register(username, password)
+                    authViewModel.register(username, password, fullName, address)
                     navController.navigate("login")
                 }
             },
