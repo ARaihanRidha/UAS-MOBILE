@@ -12,7 +12,7 @@ import retrofit2.http.Query
 const val BASE_URL = "https://api.thecatapi.com/v1/"
 const val API_KEY = "live_ZHh4vOsMy4Qt7vrjNmpPUY7PYidXS8SBLdI5HBvjO3q5KKPixXNJ2Xz0ejDH2j0O"
 
-data class CatResponse(
+data class CatResponse( //digunakan untuk mendeskripsikan struktur respons yang diterima dari API saat meminta gambar kucing.
     val id: String = "",
     val url: String = "",
     val width: Int = 0,
@@ -23,23 +23,23 @@ data class CatResponse(
 }
 
 interface CatApiService {
-    @Headers("x-api-key: $API_KEY")
-    @GET("images/search")
+    @Headers("x-api-key: $API_KEY") //Menambah Header API key ke method dibawahnya
+    @GET("images/search") //endpoint
     suspend fun getCatImages(
         @Query("limit") limit: Int = 1,
         @Query("has_breeds") hasBreeds: Boolean = true): List<CatResponse>
-    suspend fun getCatDetail(
+    suspend fun getCatDetail( //suspend untuk mengambil detail kucing berdasarkan ID.
         @Path("id") id: String,
         @Query("api_key") apiKey: String
     ): Cat
 }
 
-object CatApi {
+object CatApi { //Object Singleton menyediakan instance catAPIService retrofit
     val retrofitService: CatApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CatApiService::class.java)
+        Retrofit.Builder() //Membangun instance Retrofit
+            .baseUrl(BASE_URL) //Mengatur URL dasar untuk semua permintaan yang dibuat oleh Retrofit.
+            .addConverterFactory(GsonConverterFactory.create()) //Menambahkan converter factory
+            .build() //Membangun instance Retrofit.
+            .create(CatApiService::class.java) // untuk mengkonversi JSON ke objek Kotlin.
     }
 }

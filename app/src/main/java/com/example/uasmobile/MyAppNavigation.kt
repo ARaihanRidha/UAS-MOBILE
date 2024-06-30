@@ -1,7 +1,6 @@
 package com.example.uasmobile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +12,6 @@ import com.example.uasmobile.pages.HomePage
 import com.example.uasmobile.pages.LoginPage
 import com.example.uasmobile.pages.SignupPage
 import com.example.uasmobile.pages.StartPages
-import com.example.uasmobile.viewmodel.CatViewModel
 import com.google.gson.Gson
 
 @Composable
@@ -40,7 +38,7 @@ fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel 
             if (cat != null) {
                 CatDetailPage(item = cat, catId = cat.id, navController = navController)
             } else {
-
+                //
             }
         }
 

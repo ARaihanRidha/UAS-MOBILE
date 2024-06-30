@@ -1,20 +1,15 @@
 package com.example.uasmobile.pages
 
-import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,10 +17,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.example.uasmobile.AuthState
 import com.example.uasmobile.AuthViewModel
 import com.example.uasmobile.data.Cat
-import com.example.uasmobile.viewmodel.CatViewModel
+import com.example.uasmobile.viewModel.CatViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.layout.ContentScale
@@ -42,16 +36,7 @@ fun HomePage(
     authViewModel: AuthViewModel,
     catViewModel: CatViewModel = viewModel()
 ) {
-    val authState by authViewModel.authState.observeAsState()
     val configuration = LocalConfiguration.current
-
-    LaunchedEffect(authState) {
-        when (authState) {
-            is AuthState.Unauthenticated -> navController.navigate("login")
-            else -> Unit
-        }
-    }
-
     var searchQuery by remember { mutableStateOf("") }
     val catList by catViewModel.catList.collectAsState()
 
@@ -108,7 +93,6 @@ fun PortraitHomePage(
         }
 
         TextButton(onClick = {
-            authViewModel.signout()
         }) {
             Text(text = "Sign Out")
         }
@@ -151,7 +135,6 @@ fun LandscapeHomePage(
             }
 
             TextButton(onClick = {
-                authViewModel.signout()
             }) {
                 Text(text = "Sign Out")
             }
