@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignupPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
-    var username by remember { mutableStateOf("") } //nyimpan data input
-    var password by remember { mutableStateOf("") }
-    var address  by remember { mutableStateOf("") }
-    var fullName by remember { mutableStateOf("") }
+    val username by authViewModel.username.collectAsState()
+    val password by authViewModel.password.collectAsState()
+    val fullName by authViewModel.fullName.collectAsState()
+    val address by authViewModel.address.collectAsState()
     val scope = rememberCoroutineScope()
 
     Column(
@@ -28,28 +28,28 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
     ) {
         TextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = { authViewModel.setUsername(it) },
             label = { Text("Username") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = fullName,
-            onValueChange = { fullName = it },
+            onValueChange = { authViewModel.setFullName(it) },
             label = { Text("Full Name") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = address,
-            onValueChange = { address = it },
+            onValueChange = { authViewModel.setAddress(it) },
             label = { Text("Address") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { authViewModel.setPassword(it) },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()

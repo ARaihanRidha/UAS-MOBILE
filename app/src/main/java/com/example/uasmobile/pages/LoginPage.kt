@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
-    var username by remember { mutableStateOf("") } //State untuk menyimpan data yang dimasukkan oleh pengguna.
-    var password by remember { mutableStateOf("") }
+    val username by authViewModel.username.collectAsState()
+    val password by authViewModel.password.collectAsState()
     val scope = rememberCoroutineScope() //CoroutineScope yang digunakan untuk menjalankan operasi asynchronous.
 
     Column(
@@ -26,14 +26,14 @@ fun LoginPage(modifier: Modifier = Modifier, navController: NavController, authV
     ) {
         TextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = { authViewModel.setUsername(it) },
             label = { Text("Username") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { authViewModel.setPassword(it) },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
@@ -43,11 +43,7 @@ fun LoginPage(modifier: Modifier = Modifier, navController: NavController, authV
             onClick = {
                 scope.launch {
                     val user = authViewModel.login(username, password)
-                    if (user != null) {
                         navController.navigate("home")
-                    } else {
-                        // Show error
-                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()

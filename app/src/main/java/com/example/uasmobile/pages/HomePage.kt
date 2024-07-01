@@ -37,9 +37,8 @@ fun HomePage(
     catViewModel: CatViewModel = viewModel()
 ) {
     val configuration = LocalConfiguration.current
-    var searchQuery by remember { mutableStateOf("") }
-    val catList by catViewModel.catList.collectAsState() //State yang mengamati daftar kucing dari `catViewModel`.
-
+    val catList by catViewModel.catList.collectAsState() //State yang mengamati daftar kucing dari `catViewModel  .
+    val searchQuery by catViewModel.searchQuery.collectAsState()
     val filteredList = if (searchQuery.isEmpty()) { //Daftar kucing yang difilter berdasarkan query pencarian. Jika `searchQuery` kosong, seluruh daftar kucing ditampilkan
         catList
     } else {
@@ -52,10 +51,10 @@ fun HomePage(
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
-            PortraitHomePage(navController, authViewModel, searchQuery, onSearchQueryChange = { searchQuery = it }, filteredList)
+            PortraitHomePage(navController, authViewModel, searchQuery, onSearchQueryChange = { catViewModel.setSearchQuery(it) }, filteredList)
         }
         Configuration.ORIENTATION_LANDSCAPE -> {
-            LandscapeHomePage(navController, authViewModel, searchQuery, onSearchQueryChange = { searchQuery = it }, filteredList)
+            LandscapeHomePage(navController, authViewModel, searchQuery, onSearchQueryChange = { catViewModel.setSearchQuery(it) }, filteredList)
         }
     }
 }
