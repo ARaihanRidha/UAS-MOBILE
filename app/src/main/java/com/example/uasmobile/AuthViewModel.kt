@@ -11,16 +11,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthViewModel(context: Context) : ViewModel() {
-    private val userDao: UserDao = UserDatabase.getDatabase(context).userDao()
+    private val userDao: UserDao = UserDatabase.getDatabase(context).userDao() //Data Access Object yang digunakan untuk berinteraksi dengan tabel pengguna di database.
 
     suspend fun login(username: String, password: String): User? {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {//Menjalankan operasi database di thread I/O untuk menghindari blokir thread utama.
             userDao.login(username, password)
         }
     }
 
     fun register(username: String, password: String,fullName: String ,address: String, ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) { //Menjalankan operasi database di thread I/O untuk menghindari blokir thread utama.
             userDao.insert(User(username = username, password = password, fullName = fullName, address = address))
         }
     }

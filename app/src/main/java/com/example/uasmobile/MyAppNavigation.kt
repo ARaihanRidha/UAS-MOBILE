@@ -31,8 +31,8 @@ fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel 
         composable("home") { HomePage(navController = navController, authViewModel = authViewModel)}
         composable(
             route = "catDetail/{catJson}",
-            arguments = listOf(navArgument("catJson") { type = NavType.StringType })
-        ) { backStackEntry ->
+            arguments = listOf(navArgument("catJson") { type = NavType.StringType }) //Daftar argumen yang diterima oleh rute, dalam hal ini `catJson` bertipe `String`.
+        ) { backStackEntry -> //Memperoleh nilai dari argumen `catJson` dan mengubahnya menjadi objek `Cat` menggunakan Gson.
             val catJson = backStackEntry.arguments?.getString("catJson")
             val cat = Gson().fromJson(catJson, Cat::class.java)
             if (cat != null) {

@@ -38,9 +38,9 @@ fun HomePage(
 ) {
     val configuration = LocalConfiguration.current
     var searchQuery by remember { mutableStateOf("") }
-    val catList by catViewModel.catList.collectAsState()
+    val catList by catViewModel.catList.collectAsState() //State yang mengamati daftar kucing dari `catViewModel`.
 
-    val filteredList = if (searchQuery.isEmpty()) {
+    val filteredList = if (searchQuery.isEmpty()) { //Daftar kucing yang difilter berdasarkan query pencarian. Jika `searchQuery` kosong, seluruh daftar kucing ditampilkan
         catList
     } else {
         catList.filter { cat ->
@@ -133,11 +133,6 @@ fun LandscapeHomePage(
                     CatItem(item = item, navController)
                 }
             }
-
-            TextButton(onClick = {
-            }) {
-                Text(text = "Sign Out")
-            }
         }
     }
 }
@@ -145,7 +140,7 @@ fun LandscapeHomePage(
 @Composable
 fun CatItem(item: Cat, navController: NavController) {
     val gson = Gson()
-    val catJson = gson.toJson(item)
+    val catJson = gson.toJson(item) //Mengubah objek kucing menjadi JSON untuk navigasi.
     val configuration = LocalConfiguration.current
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {

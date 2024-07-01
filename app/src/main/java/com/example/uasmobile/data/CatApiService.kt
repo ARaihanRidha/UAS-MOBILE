@@ -1,6 +1,5 @@
 package com.example.uasmobile.api
 
-import com.example.uasmobile.data.Breed
 import com.example.uasmobile.data.Cat
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,22 +11,12 @@ import retrofit2.http.Query
 const val BASE_URL = "https://api.thecatapi.com/v1/"
 const val API_KEY = "live_ZHh4vOsMy4Qt7vrjNmpPUY7PYidXS8SBLdI5HBvjO3q5KKPixXNJ2Xz0ejDH2j0O"
 
-data class CatResponse( //digunakan untuk mendeskripsikan struktur respons yang diterima dari API saat meminta gambar kucing.
-    val id: String = "",
-    val url: String = "",
-    val width: Int = 0,
-    val height: Int = 0,
-    val breeds: List<Breed> = emptyList()
-) {
-    
-}
-
-interface CatApiService {
+interface CatApiService { // Fitur Fetch API
     @Headers("x-api-key: $API_KEY") //Menambah Header API key ke method dibawahnya
     @GET("images/search") //endpoint
     suspend fun getCatImages(
         @Query("limit") limit: Int = 1,
-        @Query("has_breeds") hasBreeds: Boolean = true): List<CatResponse>
+        @Query("has_breeds") hasBreeds: Boolean = true): List<Cat>
     suspend fun getCatDetail( //suspend untuk mengambil detail kucing berdasarkan ID.
         @Path("id") id: String,
         @Query("api_key") apiKey: String

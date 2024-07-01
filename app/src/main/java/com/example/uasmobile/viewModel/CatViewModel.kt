@@ -7,20 +7,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class CatViewModel : ViewModel() {
-    private val _catList = MutableStateFlow<List<Cat>>(emptyList())
-    val catList: StateFlow<List<Cat>> = _catList
+class CatViewModel : ViewModel() {//bertanggung jawab untuk mengelola data dan logika bisnis terkait kucing.
+    private val _catList = MutableStateFlow<List<Cat>>(emptyList())//MutableStateFlow yang menyimpan daftar kucing.
+    val catList: StateFlow<List<Cat>> = _catList //StateFlow yang mengekspos daftar kucing kepada UI.
 
-    init {
+    init { //Blok inisialisasi yang dipanggil saat ViewModel dibuat
         fetchCatImages()
     }
 
-    private fun fetchCatImages() {
+    private fun fetchCatImages() { //Fungsi ini mengambil gambar kucing dari API dan memperbarui `_catList`.
         viewModelScope.launch {
             try {
-                val response = CatApi.retrofitService.getCatImages(limit = 20)
+                val response = CatApi.retrofitService.getCatImages(limit = 20) //Memanggil API untuk mengambil 20 gambar kucing.
                 _catList.value = response.map {
-                    Cat(it.id, it.url, it.width,it.height, it.breeds)
+                    Cat(it.id, it.url, it.width,it.height, it.breeds) //Memperbarui `_catList` dengan data yang diterima dari API.
                 }
             } catch (e: Exception) {
                 //Teks error

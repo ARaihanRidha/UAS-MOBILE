@@ -6,5 +6,12 @@ data class Cat(
     val height: Int = 0,
     val breeds: List<Breed>
 )
+data class Breed( // menyimpan data Breed
+    val name: String = "",
+    val origin: String = "",
+    val life_span: String = "",
+    val description: String = "",
+    val wikipedia_url: String? = null
+)
 
 
